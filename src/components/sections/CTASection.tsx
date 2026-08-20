@@ -1,147 +1,95 @@
 "use client";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import CTA3DCanvas from "./CTA3DCanvas";
 
 export default function CTASection() {
   return (
     <section
       aria-label="Call to Action"
-      className="section-pad"
       style={{
-        background: "linear-gradient(135deg, #6D3DF5 0%, #5426D9 100%)",
+        padding: "8rem 0",
+        background: "#111113",
         color: "#FFFFFF",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Background Glow */}
+      {/* Background Radial Light */}
       <div
         style={{
           position: "absolute",
-          top: "50%", left: "50%",
+          top: "50%",
+          left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "900px", height: "500px",
-          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%)",
+          width: "70vw",
+          height: "40vw",
+          background: "radial-gradient(ellipse at center, rgba(109,61,245,0.22) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
-      <div className="grid-bg" style={{ position: "absolute", inset: 0, opacity: 0.1, pointerEvents: "none" }} />
 
       <div className="container" style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
         
-        {/* Top Eyebrow */}
-        <div className="reveal" style={{ display: "inline-flex", alignItems: "center", gap: "0.625rem", background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.25)", padding: "0.4rem 1.125rem", borderRadius: "100px", marginBottom: "2rem" }}>
-          <Sparkles size={14} color="#A78BFA" />
-          <span style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "#FFFFFF" }}>
-            READY TO SCALE YOUR BRAND?
+        {/* Converging 3D Growth Core WebGL Scene */}
+        <div style={{ maxWidth: "600px", margin: "0 auto 1.5rem auto" }}>
+          <CTA3DCanvas />
+        </div>
+
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.25rem" }}>
+          <Sparkles size={16} color="#A78BFA" />
+          <span style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", color: "#A78BFA" }}>
+            START YOUR 3D GROWTH JOURNEY
           </span>
         </div>
 
-        {/* Big Bold Headline */}
         <h2
-          className="display-xl reveal reveal-delay-1"
           style={{
+            fontFamily: "var(--font-display)",
+            fontWeight: 900,
+            fontSize: "clamp(2.75rem, 6.5vw, 5.5rem)",
+            lineHeight: 1.0,
+            letterSpacing: "-0.04em",
             color: "#FFFFFF",
             maxWidth: "900px",
-            margin: "0 auto 1.5rem",
-            lineHeight: 1.05,
+            margin: "0 auto 1.5rem auto",
           }}
         >
-          Let’s Build Your<br />
-          <span style={{
-            background: "linear-gradient(135deg, #FFFFFF 0%, #A78BFA 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}>
-            Digital Growth Engine.
-          </span>
+          READY TO <span style={{ color: "#A78BFA" }}>GROW?</span>
         </h2>
 
-        {/* Copy */}
         <p
-          className="body-lg reveal reveal-delay-2"
           style={{
-            maxWidth: "540px",
-            margin: "0 auto 3rem",
-            color: "rgba(255,255,255,0.85)",
+            fontSize: "clamp(1.125rem, 1.5vw, 1.375rem)",
+            color: "rgba(255,255,255,0.7)",
+            maxWidth: "580px",
+            margin: "0 auto 3rem auto",
+            lineHeight: 1.6,
           }}
         >
-          Partner with DEEYORA for strategy, marketing, creative, and performance solutions designed to move the needle.
+          Turn attention into predictable revenue. Talk to our growth team today and unlock custom 3D strategies for your brand.
         </p>
 
-        {/* Primary CTA Buttons */}
-        <div
-          className="reveal reveal-delay-3"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "1.25rem",
-            flexWrap: "wrap",
-            alignItems: "center",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "center", gap: "1.25rem", flexWrap: "wrap" }}>
           <Link
             href="/contact"
             className="btn"
             style={{
-              background: "#FFFFFF",
-              color: "#6D3DF5",
-              fontWeight: 800,
+              padding: "1.25rem 3rem",
               fontSize: "1.125rem",
-              padding: "1.25rem 2.75rem",
+              fontWeight: 800,
+              background: "#FFFFFF",
+              color: "#111113",
               borderRadius: "100px",
-              boxShadow: "0 16px 40px rgba(0,0,0,0.25)",
+              boxShadow: "0 12px 36px rgba(255,255,255,0.25)",
               display: "inline-flex",
               alignItems: "center",
               gap: "0.75rem",
-              transition: "all 0.3s cubic-bezier(0.22,1,0.36,1)",
-              textDecoration: "none",
+              transition: "transform 0.25s cubic-bezier(0.22, 1, 0.36, 1)",
             }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "scale(1.05) translateY(-3px)";
-              el.style.boxShadow = "0 24px 60px rgba(0,0,0,0.35)";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.transform = "scale(1) translateY(0)";
-              el.style.boxShadow = "0 16px 40px rgba(0,0,0,0.25)";
-            }}
+            data-cursor="cta"
           >
-            <span>START A PROJECT</span>
-            <ArrowRight size={20} />
-          </Link>
-
-          <Link
-            href="/services"
-            className="btn"
-            style={{
-              background: "rgba(255,255,255,0.1)",
-              border: "1.5px solid rgba(255,255,255,0.3)",
-              color: "#FFFFFF",
-              fontWeight: 700,
-              fontSize: "1.0625rem",
-              padding: "1.25rem 2.5rem",
-              borderRadius: "100px",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.75rem",
-              backdropFilter: "blur(8px)",
-              transition: "all 0.3s ease",
-              textDecoration: "none",
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "rgba(255,255,255,0.2)";
-              el.style.borderColor = "#FFFFFF";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "rgba(255,255,255,0.1)";
-              el.style.borderColor = "rgba(255,255,255,0.3)";
-            }}
-          >
-            <span>EXPLORE SERVICES</span>
+            START A PROJECT <ArrowRight size={20} color="#6D3DF5" />
           </Link>
         </div>
 
