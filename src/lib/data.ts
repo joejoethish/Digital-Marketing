@@ -1,369 +1,230 @@
-// Central data store for DEEYORA — Digital Growth Agency
+export interface ServiceItem {
+  id: string;
+  n: string;
+  title: string;
+  headline: string;
+  description: string;
+  services: string[];
+}
 
-export const services = [
-  {
-    id: "social-media-marketing",
-    number: "01",
-    name: "Social Media",
-    slug: "social-media-marketing",
-    description: "Build attention. Grow your audience.",
-    capabilities: ["Platform Strategy", "Content Planning", "Community Mgmt", "Reels & Stories"],
-    icon: "📱",
-  },
-  {
-    id: "seo",
-    number: "02",
-    name: "SEO",
-    slug: "seo",
-    description: "Get found by the right people.",
-    capabilities: ["Technical SEO", "Keyword Strategy", "Content Optimization", "Performance Tracking"],
-    icon: "🔍",
-  },
-  {
-    id: "performance-marketing",
-    number: "03",
-    name: "Performance Marketing",
-    slug: "performance-marketing",
-    description: "Turn ad spend into results.",
-    capabilities: ["Campaign Strategy", "Audience Research", "Creative Testing", "ROAS Tracking"],
-    icon: "📈",
-  },
-  {
-    id: "google-ads",
-    number: "04",
-    name: "Google Ads",
-    slug: "google-ads",
-    description: "Reach customers ready to act.",
-    capabilities: ["Search Campaigns", "Display Ads", "Shopping Ads", "Remarketing"],
-    icon: "🎯",
-  },
-  {
-    id: "meta-ads",
-    number: "05",
-    name: "Meta Ads",
-    slug: "meta-ads",
-    description: "Reach the right audience at scale.",
-    capabilities: ["Audience Targeting", "Creative Strategy", "A/B Testing", "Conversion Scale"],
-    icon: "⚡",
-  },
-  {
-    id: "content-marketing",
-    number: "06",
-    name: "Content",
-    slug: "content-marketing",
-    description: "Create content people care about.",
-    capabilities: ["Content Strategy", "Article Writing", "Video Scripting", "Distribution"],
-    icon: "✍️",
-  },
-  {
-    id: "brand-strategy",
-    number: "07",
-    name: "Brand Strategy",
-    slug: "brand-strategy",
-    description: "Build a brand people remember.",
-    capabilities: ["Brand Positioning", "Visual Identity", "Brand Voice", "Core Messaging"],
-    icon: "🎨",
-  },
-  {
-    id: "website-design",
-    number: "08",
-    name: "Web Design & Development",
-    slug: "website-design",
-    description: "Turn visitors into customers.",
-    capabilities: ["UX/UI Design", "Web Development", "Landing Pages", "Speed & Conversion"],
-    icon: "💻",
-  },
-  {
-    id: "ai-marketing",
-    number: "09",
-    name: "AI Marketing",
-    slug: "ai-marketing",
-    description: "Work smarter with AI.",
-    capabilities: ["AI Research", "Marketing Automation", "AI Analytics", "Campaign Tuning"],
-    icon: "🤖",
-  },
-];
+export interface ConceptWorkItem {
+  id: string;
+  badge: 'CONCEPT PROJECT';
+  title: string;
+  category: string;
+  summary: string;
+  challenge: string;
+  approach: string;
+  execution: string;
+  outcome: string;
+  tags: string[];
+}
 
-export const growthStages = [
-  {
-    id: "brand",
-    number: "01",
-    label: "Brand",
-    emoji: "🎯",
-    goal: "Build a clear, memorable identity.",
-    whatWeDo: "Brand Strategy + Visual Identity + Messaging",
-    outcome: "A recognized brand built to convert.",
-    tools: ["Brand Strategy", "Positioning", "Visual Identity"],
-  },
-  {
-    id: "content",
-    number: "02",
-    label: "Content",
-    emoji: "✍️",
-    goal: "Attract and build trust.",
-    whatWeDo: "Content Strategy + SEO Articles + Social Media",
-    outcome: "Organic reach and domain authority.",
-    tools: ["Content Strategy", "SEO Content", "Social Media"],
-  },
-  {
-    id: "traffic",
-    number: "03",
-    label: "Traffic",
-    emoji: "📈",
-    goal: "Reach the right audience.",
-    whatWeDo: "SEO + Google Ads + Meta Ads",
-    outcome: "More qualified visitors on high-intent pages.",
-    tools: ["Google Ads", "Meta Ads", "SEO"],
-  },
-  {
-    id: "leads",
-    number: "04",
-    label: "Leads",
-    emoji: "📋",
-    goal: "Turn visitors into interested prospects.",
-    whatWeDo: "Landing Pages + Offer Strategy + Lead Magnets",
-    outcome: "Predictable pipeline of qualified leads.",
-    tools: ["Landing Pages", "Lead Magnets", "CRM"],
-  },
-  {
-    id: "sales",
-    number: "05",
-    label: "Sales",
-    emoji: "💰",
-    goal: "Convert prospects into paying customers.",
-    whatWeDo: "Funnel Optimization + Email Nurture + Retargeting",
-    outcome: "Higher sales conversion rate and faster sales cycles.",
-    tools: ["Sales Funnel", "Email Sequences", "Retargeting"],
-  },
-  {
-    id: "growth",
-    number: "06",
-    label: "Growth",
-    emoji: "🚀",
-    goal: "Scale what works and optimize.",
-    whatWeDo: "AI Optimization + Automation + Advanced Analytics",
-    outcome: "Compounding revenue growth with lower CAC.",
-    tools: ["Analytics", "AI Optimization", "Automation"],
-  },
-];
+export interface FAQItem {
+  q: string;
+  a: string;
+}
 
-export const whyDeeyoraCards = [
-  {
-    id: "strategy",
-    number: "01",
-    title: "Strategy First",
-    body: "Start with the business goal.",
-    detail: "Every action connects back to revenue and clear metrics.",
-    icon: "🎯",
-  },
-  {
-    id: "creative",
-    number: "02",
-    title: "Creative That Works",
-    body: "Ideas that drive action.",
-    detail: "Compelling storytelling designed for maximum response.",
-    icon: "✨",
-  },
-  {
-    id: "data",
-    number: "03",
-    title: "Data Over Guesswork",
-    body: "Measure. Learn. Improve.",
-    detail: "Relentless iteration based on actual performance data.",
-    icon: "📊",
-  },
-  {
-    id: "ai",
-    number: "04",
-    title: "AI When It Helps",
-    body: "Work faster and smarter.",
-    detail: "Modern technology to automate research and scale output.",
-    icon: "🤖",
-  },
-];
+export interface InsightItem {
+  n: string;
+  title: string;
+  excerpt: string;
+}
 
-export const aiWorkflowSteps = [
+export const services: ServiceItem[] = [
   {
-    step: "01",
-    name: "Research",
-    desc: "AI-assisted market research & intent analysis.",
-    icon: "🔍",
-  },
-  {
-    step: "02",
-    name: "Create",
-    desc: "Rapid creative iteration & copy variant generation.",
-    icon: "🎨",
-  },
-  {
-    step: "03",
-    name: "Test",
-    desc: "Automated multivariate campaign & ad testing.",
-    icon: "⚡",
-  },
-  {
-    step: "04",
-    name: "Optimize",
-    desc: "Continuous bid tuning & budget allocation.",
-    icon: "📈",
-  },
-];
-
-export const caseStudies = [
-  {
-    id: "local-business-growth",
-    number: "01",
-    title: "Local Business Scale",
-    category: "Growth Concept",
-    tags: ["Local SEO", "Google Ads", "Reviews"],
-    challenge: "A local service business with zero digital presence.",
-    strategy: "Google Business setup, local SEO & targeted search ads.",
-    outcome: "2× lead inquiries within 90 days (Illustrative concept).",
-  },
-  {
-    id: "d2c-brand-launch",
-    number: "02",
-    title: "D2C Brand Activation",
-    category: "Brand Project",
-    tags: ["Brand Strategy", "Meta Ads", "Creative"],
-    challenge: "New product launching in a crowded niche.",
-    strategy: "Story-led Meta ads paired with high-converting landing page.",
-    outcome: "Break-even ROAS achieved in 60 days (Illustrative concept).",
-  },
-  {
-    id: "creator-growth-strategy",
-    number: "03",
-    title: "Creator Engine",
-    category: "Campaign Experiment",
-    tags: ["Social Media", "Content", "SEO"],
-    challenge: "Stagnant organic traffic and low audience engagement.",
-    strategy: "Content distribution engine & search-optimized articles.",
-    outcome: "3× organic reach expansion (Illustrative concept).",
-  },
-];
-
-export const blogPosts = [
-  {
-    id: "strategy-before-content",
-    title: "Strategy Before Content — Always",
-    category: "Marketing",
-    readTime: "5 min read",
-    date: "Aug 2026",
-    excerpt: "Most brands start creating before they know what they want people to do. Here's why that's backwards.",
-    slug: "strategy-before-content",
-  },
-  {
-    id: "seo-in-ai-age",
-    title: "SEO in the AI Age: What Actually Changed",
-    category: "SEO",
-    readTime: "7 min read",
-    date: "Aug 2026",
-    excerpt: "AI search changed how people find things. But the fundamentals of good SEO got more important, not less.",
-    slug: "seo-in-ai-age",
-  },
-  {
-    id: "meta-ads-creative-testing",
-    title: "How to Test Meta Ad Creatives (The Right Way)",
-    category: "Performance",
-    readTime: "6 min read",
-    date: "Jul 2026",
-    excerpt: "Most brands test ads wrong and waste budget. Here's a structured approach that actually tells you something.",
-    slug: "meta-ads-creative-testing",
-  },
-];
-
-export const industries = [
-  {
-    name: "E-commerce",
-    label: "What works",
-    strategies: ["Meta Ads", "SEO", "Retargeting", "UGC"],
-  },
-  {
-    name: "Local Business",
-    label: "What works",
-    strategies: ["Google Business", "Local SEO", "Google Search Ads", "Reviews"],
-  },
-  {
-    name: "Restaurants",
-    label: "What works",
-    strategies: ["Local SEO", "Social Reels", "Google Business", "Review Engine"],
-  },
-  {
-    name: "Real Estate",
-    label: "What works",
-    strategies: ["Lead Gen Ads", "Google Search Ads", "Video Tours", "CRM Automation"],
-  },
-  {
-    name: "Startups",
-    label: "What works",
-    strategies: ["Brand Strategy", "Performance Ads", "Growth Experiments", "SEO"],
-  },
-  {
-    name: "Education",
-    label: "What works",
-    strategies: ["Meta Ads", "YouTube SEO", "Email Nurturing", "Remarketing"],
-  },
-  {
-    name: "Professional Services",
-    label: "What works",
-    strategies: ["LinkedIn Ads", "Content Authority", "Google Search", "Lead Nurture"],
-  },
-  {
-    name: "Personal Brands",
-    label: "What works",
-    strategies: ["Brand Positioning", "Content Strategy", "Social Growth", "Newsletter"],
-  },
-];
-
-export const pricingPlans = [
-  {
-    id: "starter",
-    name: "STARTER",
-    tagline: "Build your digital foundation.",
-    bestFor: "New businesses getting started online.",
-    features: [
-      "Social media management (1 platform)",
-      "Monthly content calendar",
-      "Basic SEO setup",
-      "Monthly performance report",
-      "Email support",
+    id: 'brand-strategy',
+    n: '01',
+    title: 'BRAND STRATEGY',
+    headline: 'BUILD A BRAND PEOPLE CAN UNDERSTAND.',
+    description:
+      'A strong digital presence starts with clarity. We help define your positioning, messaging, audience, and digital direction.',
+    services: [
+      'Brand positioning',
+      'Audience research',
+      'Messaging direction',
+      'Content direction',
+      'Digital strategy',
     ],
-    cta: "Get a Custom Quote",
-    highlighted: false,
   },
   {
-    id: "growth",
-    name: "GROWTH",
-    tagline: "Build a consistent growth engine.",
-    bestFor: "Businesses ready for more leads and sales.",
-    features: [
-      "Social media (2–3 platforms)",
-      "Content creation & strategy",
-      "SEO (on-page + technical)",
-      "Google or Meta Ads management",
-      "Monthly strategy call",
-      "Bi-weekly performance reports",
-      "Dedicated account manager",
+    id: 'social-content',
+    n: '02',
+    title: 'SOCIAL MEDIA & CONTENT',
+    headline: 'CREATE CONTENT WITH A PURPOSE.',
+    description:
+      'We create content systems designed to communicate your brand, engage your audience, and support your wider marketing goals.',
+    services: [
+      'Content strategy',
+      'Social media content',
+      'Short-form video',
+      'Creative concepts',
+      'Content planning',
     ],
-    cta: "Get a Custom Quote",
-    highlighted: true,
   },
   {
-    id: "scale",
-    name: "SCALE",
-    tagline: "Scale with advanced marketing.",
-    bestFor: "Brands ready for multi-channel growth.",
-    features: [
-      "Full-funnel marketing strategy",
-      "Multi-platform ad management",
-      "Advanced SEO & content engine",
-      "AI-powered optimization",
-      "Weekly strategy calls",
-      "CRO & landing page optimization",
-      "Marketing automation setup",
-      "Priority support",
+    id: 'performance-marketing',
+    n: '03',
+    title: 'PERFORMANCE MARKETING',
+    headline: 'REACH THE PEOPLE WHO MATTER.',
+    description:
+      'We plan, launch, monitor, and optimize digital advertising around clear business objectives.',
+    services: [
+      'Meta advertising',
+      'Google advertising',
+      'Campaign strategy',
+      'Audience targeting',
+      'Creative testing',
+      'Performance optimization',
     ],
-    cta: "Get a Custom Quote",
-    highlighted: false,
+  },
+  {
+    id: 'website-conversion',
+    n: '04',
+    title: 'WEBSITE & CONVERSION',
+    headline: 'TURN MORE VISITORS INTO CUSTOMERS.',
+    description:
+      'We create and improve digital experiences that make your offer clearer and the next step easier.',
+    services: [
+      'Landing pages',
+      'Website design',
+      'Conversion strategy',
+      'User experience',
+      'CTA optimization',
+    ],
+  },
+  {
+    id: 'seo-organic',
+    n: '05',
+    title: 'SEO & ORGANIC GROWTH',
+    headline: 'BUILD VISIBILITY THAT CAN COMPOUND.',
+    description:
+      'We build practical SEO foundations that help businesses become easier to discover when customers are actively searching.',
+    services: [
+      'Keyword research',
+      'On-page SEO',
+      'Technical SEO foundations',
+      'SEO content',
+      'Local SEO',
+    ],
+  },
+  {
+    id: 'analytics-reporting',
+    n: '06',
+    title: 'ANALYTICS & REPORTING',
+    headline: 'KNOW WHAT YOUR MARKETING IS DOING.',
+    description:
+      'We help create the measurement foundations needed to understand traffic, engagement, conversions, and campaign performance.',
+    services: [
+      'Analytics setup',
+      'Conversion tracking',
+      'KPI tracking',
+      'Performance reporting',
+      'Marketing insights',
+    ],
+  },
+];
+
+export const conceptProjects: ConceptWorkItem[] = [
+  {
+    id: 'ecom-growth-system',
+    badge: 'CONCEPT PROJECT',
+    title: 'D2C Brand Identity & Performance Architecture',
+    category: 'Brand Strategy & Conversion',
+    summary:
+      'Exploratory framework detailing how modular creative assets and ultra-fast landing pages combine to improve purchase intent.',
+    challenge:
+      'How to position a modern premium skincare offer in a crowded market without relying on aggressive discount tactics.',
+    approach:
+      'Mapped customer buying triggers, simplified messaging hierarchy, and developed direct product clarity.',
+    execution:
+      'Created short-form video hooks, redesigned product landing page flow, and optimized checkout CTAs.',
+    outcome:
+      'Established a clear reference architecture for performance testing and brand retention.',
+    tags: ['Brand Positioning', 'Landing Page UX', 'Paid Social Strategy'],
+  },
+  {
+    id: 'b2b-saas-positioning',
+    badge: 'CONCEPT PROJECT',
+    title: 'B2B Software Positioning & Digital Funnel Concept',
+    category: 'Strategy & UX Design',
+    summary:
+      'Architectural study on converting technical B2B feature specs into clear customer-value propositions.',
+    challenge:
+      'Complex technical products often struggle with high landing page bounce rates due to unclear value communication.',
+    approach:
+      'Replaced technical jargon with direct business benefits, structured clear demo paths, and highlighted core ROI pillars.',
+    execution:
+      'Built a minimal interactive demo landing page, refined hero messaging, and designed a streamlined lead intake form.',
+    outcome:
+      'Demonstrated a higher conversion UX model for SaaS demo requests.',
+    tags: ['B2B Messaging', 'Conversion UX', 'Search Strategy'],
+  },
+  {
+    id: 'lifestyle-content-system',
+    badge: 'CONCEPT PROJECT',
+    title: 'Omnichannel Content System for Premium Lifestyle Brand',
+    category: 'Content & Social Strategy',
+    summary:
+      'A structured content framework for scaling organic reach while driving consistent audience engagement.',
+    challenge:
+      'Posting content without a clear narrative structure leads to inconsistent brand perception and lost interest.',
+    approach:
+      'Developed 4 core content pillars balancing brand storytelling, educational hooks, and direct product call-to-actions.',
+    execution:
+      'Designed short-form video templates, automated content scheduling workflows, and optimized visual aesthetic guidelines.',
+    outcome:
+      'Formed a repeatable, high-quality content production system for boutique lifestyle brands.',
+    tags: ['Content Strategy', 'Short-Form Video', 'Visual Identity'],
+  },
+];
+
+export const insights: InsightItem[] = [
+  {
+    n: 'ARTICLE 01',
+    title: 'HOW TO BUILD A DIGITAL MARKETING STRATEGY FROM SCRATCH',
+    excerpt:
+      'The essential building blocks every growing business should understand before investing in marketing.',
+  },
+  {
+    n: 'ARTICLE 02',
+    title: 'WHAT MAKES A SOCIAL MEDIA STRATEGY ACTUALLY WORK?',
+    excerpt:
+      'Moving beyond random posting to content with a clear purpose.',
+  },
+  {
+    n: 'ARTICLE 03',
+    title: 'BEFORE YOU SPEND ON ADS, FIX THESE 5 THINGS',
+    excerpt:
+      'The fundamentals businesses should have in place before investing in paid acquisition.',
+  },
+  {
+    n: 'ARTICLE 04',
+    title: 'WHY YOUR WEBSITE MATTERS BEYOND DESIGN',
+    excerpt:
+      'How clarity, trust, usability, and conversion work together to create a better digital experience.',
+  },
+];
+
+export const faqs: FAQItem[] = [
+  {
+    q: 'DO YOU WORK WITH NEW BUSINESSES?',
+    a: 'Yes. We work with businesses at different stages, including brands building their digital presence from the ground up.',
+  },
+  {
+    q: 'DO I NEED TO KNOW WHICH SERVICE I NEED?',
+    a: "No. Tell us about your business and your goal first. We'll help identify where digital marketing can make the most sense.",
+  },
+  {
+    q: 'HOW DOES A PROJECT START?',
+    a: 'We begin with a conversation to understand your business, goals, audience, and current digital presence. From there, we recommend the appropriate next steps.',
+  },
+  {
+    q: 'DO YOU GUARANTEE RESULTS?',
+    a: 'No responsible marketing partner can guarantee a specific revenue, ROAS, or growth outcome. We focus on building a clear strategy, measuring performance, and continuously optimizing based on what the data tells us.',
+  },
+  {
+    q: 'DO YOU OFFER CUSTOM PACKAGES?',
+    a: 'Yes. Our approach is based on the business, goals, scope, and level of support required rather than forcing every client into the same package.',
   },
 ];
