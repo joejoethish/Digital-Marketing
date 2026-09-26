@@ -1,60 +1,52 @@
-import Hero from "@/components/sections/Hero";
-import FirstImpression from "@/components/sections/FirstImpression";
-import ServicesSection from "@/components/sections/ServicesSection";
-import GrowthSystem from "@/components/sections/GrowthSystem";
-import WhyDeeyora from "@/components/sections/WhyDeeyora";
-import AIAdvantage from "@/components/sections/AIAdvantage";
-import PerformanceDashboard from "@/components/sections/PerformanceDashboard";
-import WorkSection from "@/components/sections/WorkSection";
-import Industries from "@/components/sections/Industries";
-import Process from "@/components/sections/Process";
-import Pricing from "@/components/sections/Pricing";
-import Insights from "@/components/sections/Insights";
-import CTASection from "@/components/sections/CTASection";
-import ScrollRevealInit from "@/components/ScrollRevealInit";
+import Hero from '@/components/Hero';
+import JourneyStage from '@/components/JourneyStage';
+import CTASection from '@/components/CTASection';
 
-export default function HomePage() {
+export default function Home() {
   return (
     <>
-      <ScrollRevealInit />
-      
-      {/* 01. Hero */}
       <Hero />
 
-      {/* 02. First Impression Banner */}
-      <FirstImpression />
+      <JourneyStage
+        number="01"
+        total="06"
+        label="STRATEGY"
+        title="The right direction turns ideas into plans."
+        description="Before moving, you need to know where you're going. We map the landscape, find the opportunity and build a strategy that connects your brand to the people who matter most."
+      />
 
-      {/* 03. Services */}
-      <ServicesSection />
+      <JourneyStage
+        number="02"
+        total="06"
+        label="CREATIVE"
+        title="Bold ideas. Beautifully brought to life."
+        description="We capture what makes your brand worth remembering. From visual identity to content systems, every creative decision is designed to stop the scroll and start a conversation."
+      />
 
-      {/* 04. Growth System */}
-      <GrowthSystem />
+      <JourneyStage
+        number="03"
+        total="06"
+        label="PERFORMANCE"
+        title="More reach. More clicks. More results."
+        description="Strategy and creative mean nothing without momentum. We turn campaigns into measurable growth engines — moving your brand forward with precision and speed."
+      />
 
-      {/* 05. Why DEEYORA */}
-      <WhyDeeyora />
+      <JourneyStage
+        number="04"
+        total="06"
+        label="TECHNOLOGY"
+        title="Smarter tools. Seamless growth."
+        description="We connect your brand to the right platforms, tools and systems. Data flows, audiences connect, and every touchpoint works together to drive intelligent growth."
+      />
 
-      {/* 06. AI Advantage */}
-      <AIAdvantage />
+      <JourneyStage
+        number="05"
+        total="06"
+        label="GROWTH"
+        title="The journey was the growth story."
+        description="Every step you've taken — discovering, planning, creating, performing, connecting — leads here. A brand that doesn't just exist, but grows with purpose and clarity."
+      />
 
-      {/* 07. Performance Marketing Analytics */}
-      <PerformanceDashboard />
-
-      {/* 08. Industry Focus */}
-      <Industries />
-
-      {/* 09. Work That Speaks */}
-      <WorkSection />
-
-      {/* 10. Process */}
-      <Process />
-
-      {/* 11. Pricing & Engagement */}
-      <Pricing />
-
-      {/* 12. Insights */}
-      <Insights />
-
-      {/* 13. Final CTA */}
       <CTASection />
     </>
   );
