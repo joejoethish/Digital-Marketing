@@ -1,0 +1,451 @@
+/* ════════════════════════════════════════════════════════════════════
+   Contact page — short form + one-tap direct contact
+   ════════════════════════════════════════════════════════════════════ */
+
+.contact-page {
+  padding: 150px 0 96px; /* clears the floating header */
+}
+
+.contact-head {
+  max-width: 720px;
+}
+
+.contact-head h1 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: clamp(38px, 5.4vw, 72px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: var(--navy);
+  margin: 16px 0 18px;
+}
+
+.contact-head p {
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 40px;
+  margin-top: 44px;
+  align-items: start;
+}
+
+.contact-form-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: clamp(22px, 3vw, 40px);
+  box-shadow: 0 30px 60px -40px rgba(17, 19, 26, 0.25);
+}
+
+/* ── Form ───────────────────────────────────────────────────────────── */
+
+.cf {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.cf-intro {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.cf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.cf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 0;
+  min-width: 0;
+}
+
+.cf-field label,
+.cf-field legend {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  padding: 0;
+}
+
+.cf-field legend {
+  margin-bottom: 10px;
+}
+
+.cf-optional {
+  margin-left: 6px;
+  font-family: var(--font-dm-sans), sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8a8c96;
+}
+
+.cf-field input,
+.cf-field textarea {
+  width: 100%;
+  font-size: 16px; /* ≥16px stops iOS from zooming in on focus */
+  line-height: 1.4;
+  color: var(--navy);
+  background: var(--bg);
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  padding: 15px 16px;
+  cursor: text;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cf-field input,
+.cf-field textarea,
+.cf-result {
+  scroll-margin-top: 120px; /* keep focused fields clear of the sticky nav */
+}
+
+.cf-field textarea {
+  resize: vertical;
+  min-height: 112px;
+}
+
+.cf-field input::placeholder,
+.cf-field textarea::placeholder {
+  color: #9a9ca5;
+}
+
+.cf-field input:hover,
+.cf-field textarea:hover {
+  border-color: var(--line);
+}
+
+.cf-field input:focus,
+.cf-field textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--purple);
+  box-shadow: 0 0 0 4px rgba(139, 111, 192, 0.16);
+}
+
+.cf-hint {
+  font-size: 13px;
+  color: #8a8c96;
+}
+
+.cf-error {
+  font-size: 13px;
+  font-weight: 500;
+  color: #c0304a;
+}
+
+.cf-form-error {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(209, 67, 91, 0.08);
+}
+
+.cf-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--navy);
+  background: var(--bg);
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.cf-chip:hover {
+  border-color: var(--lav);
+}
+
+.cf-chip.is-on {
+  color: #fff;
+  background: var(--purple);
+  border-color: var(--purple);
+}
+
+.cf-chip:focus-visible,
+.cf-link:focus-visible,
+.dc-main:focus-visible,
+.dc-copy:focus-visible {
+  outline: 3px solid rgba(139, 111, 192, 0.45);
+  outline-offset: 2px;
+}
+
+
+.cf-submit {
+  justify-content: center;
+  min-height: 56px;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.cf-submit:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.cf-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: cf-spin 0.7s linear infinite;
+}
+
+@keyframes cf-spin {
+  to { transform: rotate(360deg); }
+}
+
+.cf-note {
+  text-align: center;
+  font-size: 13px;
+  color: #8a8c96;
+  margin-top: -8px;
+}
+
+/* ── Result states ──────────────────────────────────────────────────── */
+
+.cf-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 36px 8px;
+}
+
+.cf-result h2 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: clamp(24px, 2.4vw, 32px);
+  letter-spacing: -0.03em;
+  color: var(--navy);
+}
+
+.cf-result p {
+  max-width: 420px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.cf-link {
+  margin-top: 8px;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0 0 3px;
+  cursor: pointer;
+}
+
+.cf-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.cf-btn-soft {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* ── Direct contact ─────────────────────────────────────────────────── */
+
+.contact-side h2 {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+
+.contact-side .contact-side-sub {
+  margin-top: 36px;
+}
+
+.dc {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dc-item {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.dc-item:hover {
+  border-color: var(--lav);
+  box-shadow: 0 12px 30px -18px rgba(139, 111, 192, 0.5);
+  transform: translateY(-1px);
+}
+
+.dc-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px 18px;
+}
+
+.dc-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--purple);
+  background: rgba(139, 111, 192, 0.12);
+}
+
+.dc-icon-wa {
+  color: #1c9c4a;
+  background: rgba(37, 211, 102, 0.14);
+}
+
+.dc-label {
+  display: block;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.dc-value {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dc-copy {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.dc-copy:hover {
+  color: var(--purple);
+}
+
+.contact-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-steps li {
+  display: flex;
+  gap: 14px;
+}
+
+.contact-step-num {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  border: 1.5px solid var(--lav);
+}
+
+.contact-steps strong {
+  display: block;
+  font-size: 15px;
+  color: var(--navy);
+}
+
+.contact-steps p {
+  margin-top: 2px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.contact-location {
+  margin-top: 32px;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: #8a8c96;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .contact-page {
+    padding: 110px 0 64px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-top: 28px;
+  }
+
+  .cf-row {
+    grid-template-columns: 1fr;
+  }
+}

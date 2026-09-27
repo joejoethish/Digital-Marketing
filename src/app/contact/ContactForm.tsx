@@ -1,159 +1,288 @@
-"use client";
-import { useState } from "react";
-import { ArrowRight, CheckCircle } from "lucide-react";
+'use client';
 
-const helpOptions = [
-  "Social Media Marketing", "SEO", "Google Ads", "Meta Ads",
-  "Website Design & Development", "Brand Strategy", "Content Marketing",
-  "AI Marketing & Automation", "Full Digital Marketing", "Not Sure Yet",
-];
+import { useEffect, useRef, useState } from 'react';
+import { ArrowRight, Check, CheckCircle2, Copy, Mail, MessageCircle, WifiOff } from 'lucide-react';
+import {
+  CONTACT,
+  NEED_OPTIONS,
+  enquiryText,
+  mailtoLink,
+  whatsappLink,
+  type EnquiryPayload,
+} from '@/lib/contact';
+import { DRAFT_KEY, SENT_EVENT, flushOutbox, sendEnquiry } from '@/lib/enquiry';
+import { pulseStage } from '@/components/experience/stageStore';
+
+type Status = 'idle' | 'sending' | 'sent' | 'queued' | 'fallback';
+
+interface Draft {
+  name: string;
+  contact: string;
+  needs: string[];
+  message: string;
+}
+
+const EMPTY: Draft = { name: '', contact: '', needs: [], message: '' };
 
 export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    name: "", business: "", email: "", help: "", message: "",
-    phone: "", website: "", budget: "",
-  });
+  const [draft, setDraft] = useState<Draft>(EMPTY);
+  const [status, setStatus] = useState<Status>('idle');
+  const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  // Restore an unfinished draft so nothing typed is ever lost.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) setDraft({ ...EMPTY, ...JSON.parse(saved) });
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status !== 'idle') return;
+    const empty = !draft.name && !draft.contact && !draft.message && !draft.needs.length;
+    if (empty) localStorage.removeItem(DRAFT_KEY);
+    else localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  }, [draft, status]);
+
+  // A queued (offline) message was delivered in the background.
+  useEffect(() => {
+    const onSent = () => setStatus((s) => (s === 'queued' ? 'sent' : s));
+    const onOnline = () => flushOutbox();
+    window.addEventListener(SENT_EVENT, onSent);
+    window.addEventListener('online', onOnline);
+    return () => {
+      window.removeEventListener(SENT_EVENT, onSent);
+      window.removeEventListener('online', onOnline);
+    };
+  }, []);
+
+  // Bring the confirmation into view (the result is shorter than the form).
+  useEffect(() => {
+    if (status !== 'idle' && status !== 'sending') {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [status]);
+
+  const update = <K extends keyof Draft>(key: K, value: Draft[K]) => {
+    setDraft((d) => ({ ...d, [key]: value }));
+    pulseStage(0.08); // the 3D engine stirs as you type
+    setError('');
   };
+
+  const toggleNeed = (need: string) =>
+    update('needs', draft.needs.includes(need) ? draft.needs.filter((n) => n !== need) : [...draft.needs, need]);
+
+  // No restrictions: anything at all can be sent. Only a completely blank form is held back.
+  const isBlank = !draft.name.trim() && !draft.contact.trim() && !draft.message.trim() && !draft.needs.length;
+  const BLANK_MESSAGE = 'Write anything at all and we’ll get it.';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    await new Promise(r => setTimeout(r, 1200));
-    setLoading(false);
-    setSubmitted(true);
+    if (status === 'sending') return;
+    if (isBlank) {
+      setError(BLANK_MESSAGE);
+      nameRef.current?.focus();
+      return;
+    }
+    setStatus('sending');
+    const payload: EnquiryPayload = {
+      name: draft.name.trim(),
+      contact: draft.contact.trim(),
+      needs: draft.needs,
+      message: draft.message.trim(),
+    };
+    const result = await sendEnquiry(payload);
+    if (result === 'empty') {
+      setStatus('idle');
+      setError(BLANK_MESSAGE);
+      return;
+    }
+    if (result !== 'fallback') localStorage.removeItem(DRAFT_KEY);
+    if (result === 'sent' || result === 'queued') pulseStage(1.6);
+    setStatus(result);
   };
 
-  if (submitted) {
+  const reset = () => {
+    setDraft(EMPTY);
+    setError('');
+    setStatus('idle');
+  };
+
+  const copyMessage = async () => {
+    try {
+      await navigator.clipboard.writeText(enquiryText(draft));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
+
+  const firstName = draft.name.trim().split(/\s+/)[0];
+
+  if (status === 'sent') {
     return (
-      <div style={{
-        background: "var(--bg-surface)", border: "1px solid var(--border)",
-        borderRadius: "var(--radius-lg)", padding: "4rem 2.5rem",
-        textAlign: "center", display: "flex", flexDirection: "column",
-        alignItems: "center", gap: "1.25rem",
-      }}>
-        <div style={{
-          width: "60px", height: "60px", borderRadius: "50%",
-          background: "rgba(34,197,94,0.1)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <CheckCircle size={28} color="var(--success)" />
-        </div>
-        <h2 className="display-md">Message Received.</h2>
-        <p className="body-lg" style={{ color: "var(--text-secondary)", maxWidth: "360px" }}>
-          Thanks for reaching out. We&apos;ll get back to you soon.
+      <div ref={resultRef} className="cf-result" role="status">
+        <CheckCircle2 size={44} className="accent" aria-hidden="true" />
+        <h2>Thank you{firstName ? `, ${firstName}` : ''}!</h2>
+        <p>
+          Your message is with us.{' '}
+          {draft.contact ? (
+            <>
+              We&apos;ll reply {CONTACT.responseTime} at <strong>{draft.contact}</strong>.
+            </>
+          ) : (
+            <>
+              If you&apos;d like a reply, email us at <a href={mailtoLink()}>{CONTACT.email}</a>.
+            </>
+          )}
         </p>
-        <a href="/work" className="btn btn-outline">
-          Explore Our Work <ArrowRight size={14} />
-        </a>
+        <button type="button" className="cf-link" onClick={reset}>
+          Send another message
+        </button>
+      </div>
+    );
+  }
+
+  if (status === 'queued') {
+    return (
+      <div ref={resultRef} className="cf-result" role="status">
+        <WifiOff size={40} className="accent" aria-hidden="true" />
+        <h2>You&apos;re offline — your message is saved.</h2>
+        <p>
+          It will be sent automatically as soon as you&apos;re back online. You can keep browsing or close this page.
+        </p>
+      </div>
+    );
+  }
+
+  if (status === 'fallback') {
+    const wa = whatsappLink(enquiryText(draft));
+    return (
+      <div ref={resultRef} className="cf-result" role="status">
+        <Mail size={40} className="accent" aria-hidden="true" />
+        <h2>Almost there — send it in one tap.</h2>
+        <p>We couldn&apos;t send your message automatically. Your details are ready to go:</p>
+        <div className="cf-fallback">
+          <a className="btn-primary" href={mailtoLink(draft)}>
+            <Mail size={16} aria-hidden="true" />
+            <span>Email it to us</span>
+          </a>
+          {wa && (
+            <a className="cf-btn-soft" href={wa} target="_blank" rel="noopener noreferrer">
+              <MessageCircle size={16} aria-hidden="true" /> WhatsApp
+            </a>
+          )}
+          <button type="button" className="cf-btn-soft" onClick={copyMessage}>
+            {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
+            {copied ? 'Copied' : 'Copy message'}
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.125rem" }}>
+    <form className="cf" onSubmit={handleSubmit} noValidate aria-describedby="cf-intro">
+      <p id="cf-intro" className="cf-intro">
+        Two quick details and we&apos;ll take it from there.
+      </p>
 
-      {/* Name + Business */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-        <div>
-          <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>
-            Name *
-          </label>
-          <input name="name" required value={form.name} onChange={handleChange} placeholder="Your name" className="input" />
+      <div className="cf-row">
+        <div className="cf-field">
+          <label htmlFor="cf-name">Your name</label>
+          <input
+            ref={nameRef}
+            id="cf-name"
+            name="name"
+            autoComplete="name"
+            enterKeyHint="next"
+            placeholder="e.g. Priya Sharma"
+            value={draft.name}
+            onChange={(e) => update('name', e.target.value)}
+          />
         </div>
-        <div>
-          <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>
-            Business Name *
-          </label>
-          <input name="business" required value={form.business} onChange={handleChange} placeholder="Your business" className="input" />
+
+        <div className="cf-field">
+          <label htmlFor="cf-contact">Email or phone</label>
+          <input
+            id="cf-contact"
+            name="contact"
+            autoComplete="email"
+            enterKeyHint="next"
+            placeholder="you@business.com or +91…"
+            value={draft.contact}
+            onChange={(e) => update('contact', e.target.value)}
+            aria-describedby="cf-contact-hint"
+          />
+          <p id="cf-contact-hint" className="cf-hint">
+            Whichever you prefer — we&apos;ll reply there.
+          </p>
         </div>
       </div>
 
-      {/* Email */}
-      <div>
-        <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>
-          Email *
-        </label>
-        <input name="email" type="email" required value={form.email} onChange={handleChange} placeholder="you@company.com" className="input" />
-      </div>
+      <fieldset className="cf-field">
+        <legend>
+          What can we help with? <span className="cf-optional">Optional · pick any</span>
+        </legend>
+        <div className="cf-chips">
+          {NEED_OPTIONS.map((need) => {
+            const on = draft.needs.includes(need);
+            return (
+              <button
+                key={need}
+                type="button"
+                className={`cf-chip ${on ? 'is-on' : ''}`}
+                aria-pressed={on}
+                onClick={() => toggleNeed(need)}
+              >
+                {on && <Check size={13} aria-hidden="true" />}
+                {need}
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
 
-      {/* What do you need */}
-      <div>
-        <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>
-          What do you need help with? *
-        </label>
-        <select name="help" required value={form.help} onChange={handleChange} className="input" style={{ appearance: "none" }}>
-          <option value="">Select...</option>
-          {helpOptions.map(o => <option key={o} value={o}>{o}</option>)}
-        </select>
-      </div>
-
-      {/* Message */}
-      <div>
-        <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>
-          Message *
+      <div className="cf-field">
+        <label htmlFor="cf-message">
+          Anything you&apos;d like to share? <span className="cf-optional">Optional</span>
         </label>
         <textarea
-          name="message" required value={form.message} onChange={handleChange}
-          placeholder="Tell us about your business and what you're trying to achieve."
-          rows={4} className="input" style={{ resize: "vertical" }}
+          id="cf-message"
+          name="message"
+          rows={4}
+          placeholder="A sentence is plenty — e.g. “We’re a new café and want more local customers from Instagram.”"
+          value={draft.message}
+          onChange={(e) => update('message', e.target.value)}
         />
       </div>
 
-      {/* Optional fields */}
-      <details style={{ fontSize: "0.875rem" }}>
-        <summary style={{ cursor: "pointer", color: "var(--text-muted)", fontWeight: 500, marginBottom: "0.75rem", userSelect: "none" }}>
-          Optional details (phone, website, budget)
-        </summary>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem", paddingTop: "0.5rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-            <div>
-              <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>Phone</label>
-              <input name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+91 98765 43210" className="input" />
-            </div>
-            <div>
-              <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>Website</label>
-              <input name="website" type="url" value={form.website} onChange={handleChange} placeholder="https://yoursite.com" className="input" />
-            </div>
-          </div>
-          <div>
-            <label style={{ display: "block", fontSize: "0.8125rem", fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.375rem" }}>Monthly Budget</label>
-            <select name="budget" value={form.budget} onChange={handleChange} className="input" style={{ appearance: "none" }}>
-              <option value="">Select range...</option>
-              {["Under ₹25,000/mo", "₹25,000–₹75,000/mo", "₹75,000–₹2L/mo", "₹2L+/mo", "Let's discuss"].map(b => (
-                <option key={b} value={b}>{b}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </details>
+      {error && (
+        <p className="cf-error cf-form-error" role="alert">
+          {error}
+        </p>
+      )}
 
-      {/* Submit */}
-      <button
-        type="submit"
-        className="btn btn-primary"
-        style={{ padding: "1rem 2rem", fontSize: "1rem", justifyContent: "center" }}
-        disabled={loading}
-      >
-        {loading ? (
-          <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <span style={{ width: "16px", height: "16px", border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin-slow 0.7s linear infinite" }} />
-            Sending...
-          </span>
+      <button type="submit" className="btn-primary cf-submit" disabled={status === 'sending'}>
+        {status === 'sending' ? (
+          <>
+            <span className="cf-spinner" aria-hidden="true" />
+            <span>Sending…</span>
+          </>
         ) : (
-          <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            Send Message <ArrowRight size={16} />
-          </span>
+          <>
+            <span>Send message</span>
+            <ArrowRight size={16} aria-hidden="true" />
+          </>
         )}
       </button>
-
-      <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "center" }}>
-        No commitment required. We&apos;ll respond within 24 hours.
-      </p>
+      <p className="cf-note">No commitment. We reply {CONTACT.responseTime}.</p>
     </form>
   );
 }
