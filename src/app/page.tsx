@@ -1,30 +1,41 @@
-import Hero from '@/components/Hero';
-import WhatWeHelpWith from '@/components/WhatWeHelpWith';
-import ProcessSection from '@/components/ProcessSection';
-import WhyDeeyoraSection from '@/components/WhyDeeyoraSection';
+import HomeExperience from '@/components/experience/HomeExperience';
+import HeroScene from '@/components/home/HeroScene';
+import EngineScene from '@/components/home/EngineScene';
+import MeasureScene from '@/components/home/MeasureScene';
+import ProcessScene from '@/components/home/ProcessScene';
+import PrinciplesScene from '@/components/home/PrinciplesScene';
+import FinalScene from '@/components/home/FinalScene';
 import FAQSection from '@/components/FAQSection';
-import CTASection from '@/components/CTASection';
 
+// Immersive home page. A single WebGL "Growth Engine" stays on screen while the
+// sections scroll past; each `data-kf` anchor tells it which pose to take.
 export default function Home() {
   return (
     <>
-      {/* 01 HERO SECTION */}
-      <Hero />
+      <HomeExperience />
 
-      {/* 02 HOME — WHAT WE HELP WITH */}
-      <WhatWeHelpWith />
+      {/* 01 — Hero: the assembled engine */}
+      <HeroScene />
 
-      {/* 03 HOME — PROCESS */}
-      <ProcessSection />
+      {/* 02 — Exploded view: five layers */}
+      <EngineScene />
 
-      {/* 04 HOME — WHY DEEYORA */}
-      <WhyDeeyoraSection />
+      {/* 03 — Macro close-up on the performance layer */}
+      <MeasureScene />
 
-      {/* 05 FREQUENTLY ASKED QUESTIONS */}
-      <FAQSection />
+      {/* 04 — Top-down process dial (3D → 2D) */}
+      <ProcessScene />
 
-      {/* 06 HOME — FINAL CTA */}
-      <CTASection />
+      {/* 05 — Flip: why DEEYORA */}
+      <PrinciplesScene />
+
+      {/* 06 — FAQ */}
+      <div className="exp-section exp-faq" data-kf="faq">
+        <FAQSection />
+      </div>
+
+      {/* 07 — Final CTA */}
+      <FinalScene />
     </>
   );
 }
