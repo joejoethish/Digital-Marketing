@@ -1,42 +1,91 @@
-import WorkSection from '@/components/WorkSection';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import SplitWords from '@/components/ui/SplitWords';
+import WorkProjects from '@/components/work/WorkProjects';
 
+export const metadata = {
+  title: 'Work — DEEYORA',
+  description: "DEEYORA is a growing digital studio. See how we document our work and the concept studies we're building.",
+};
+
+const FRAMEWORK_STEPS = [
+  { title: 'The challenge', desc: 'What the business needed to solve.' },
+  { title: 'The approach', desc: 'How we identified the opportunity.' },
+  { title: 'The execution', desc: 'What we planned and built.' },
+  { title: 'The outcome', desc: 'What changed and what we learned.' },
+];
+
+// A dark gallery: the camera orbits the Growth Engine through the four parts
+// of every case study (keyframes `work-*`).
 export default function WorkPage() {
   return (
-    <>
-      <div className="container subhero" style={{ paddingBottom: 20 }}>
-        <div className="eyebrow">OUR WORK</div>
-        <h1 className="hero-headline" style={{ fontSize: 'clamp(36px, 5.5vw, 68px)', margin: '16px 0 20px', lineHeight: 1.1 }}>
-          WE'RE BUILDING <span className="accent">OUR STORY.</span>
-        </h1>
-        <p className="section-copy" style={{ fontSize: 18, maxWidth: 720, color: 'var(--muted)', lineHeight: 1.6 }}>
-          DEEYORA is a growing digital studio. We're building our portfolio through real projects, real collaboration, and work we can stand behind.
-        </p>
-      </div>
-
-      {/* Methodology framework & Concept studies */}
-      <WorkSection />
-
-      {/* Work Page Final CTA */}
-      <div className="container" style={{ paddingBottom: 80 }}>
-        <div
-          className="calculator-card"
-          style={{ padding: '48px 36px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}
-        >
-          <div className="eyebrow">COLLABORATION</div>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(26px, 4vw, 42px)', color: 'var(--navy)' }}>
-            HAVE A PROJECT YOU'D LIKE TO BUILD WITH US?
-          </h2>
-          <p className="section-copy" style={{ fontSize: 16, maxWidth: 600 }}>
-            Let's discuss your current digital goals and build a practical roadmap together.
-          </p>
-          <Link href="/contact" className="btn-primary" style={{ marginTop: 8 }}>
-            <span>START A PROJECT</span>
-            <ArrowRight size={16} />
-          </Link>
+    <div className="xp-work">
+      <section className="exp-section exp-dark xp-hero" data-kf="work-hero">
+        <div className="container">
+          <div className="xp-hero-copy" data-reveal>
+            <div className="eyebrow exp-fade">Our work</div>
+            <h1 className="exp-display">
+              <SplitWords text="We're building our story." offset={2} />
+            </h1>
+            <p className="exp-lead exp-fade" style={{ '--d': '0.6s' } as React.CSSProperties}>
+              DEEYORA is a growing digital studio. We&apos;re building our portfolio through real projects, real
+              collaboration, and work we can stand behind.
+            </p>
+          </div>
         </div>
-      </div>
-    </>
+      </section>
+
+      <section className="exp-section exp-dark xp-intro">
+        <div className="container" data-reveal>
+          <div className="eyebrow exp-fade">Our methodology</div>
+          <h2 className="exp-title">
+            <SplitWords text="How we document our work." />
+          </h2>
+          <p className="exp-lead exp-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
+            Every case study published by DEEYORA follows a transparent 4-part structure focused on real
+            problem-solving and honest findings.
+          </p>
+        </div>
+      </section>
+
+      {FRAMEWORK_STEPS.map((step, i) => (
+        <section key={step.title} className="exp-section exp-dark xp-block" data-kf={`work-step-${i + 1}`}>
+          <div className="container">
+            <div className="xp-block-copy" data-reveal>
+              <div className="xp-count exp-fade">
+                0{i + 1} <span>/ 0{FRAMEWORK_STEPS.length}</span>
+              </div>
+              <h2 className="exp-step-title">
+                <SplitWords text={step.title} />
+              </h2>
+              <p className="exp-lead exp-fade" style={{ '--d': '0.25s' } as React.CSSProperties}>
+                {step.desc}
+              </p>
+            </div>
+          </div>
+        </section>
+      ))}
+
+      <WorkProjects />
+
+      <section className="exp-section exp-dark xp-cta" data-kf="work-cta">
+        <div className="container">
+          <div className="xp-card" data-reveal>
+            <div className="eyebrow exp-fade">Collaboration</div>
+            <h2 className="exp-title">
+              <SplitWords text="Have a project you'd like to build with us?" />
+            </h2>
+            <p className="exp-lead exp-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
+              Let&apos;s discuss your current digital goals and build a practical roadmap together.
+            </p>
+            <div className="exp-actions exp-fade" style={{ '--d': '0.4s' } as React.CSSProperties}>
+              <Link href="/contact" className="btn-primary">
+                <span>Start a project</span>
+                <span className="btn-arrow">→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

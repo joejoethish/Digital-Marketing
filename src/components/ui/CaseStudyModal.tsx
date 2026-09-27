@@ -2,6 +2,7 @@
 
 import { X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { createPortal } from 'react-dom';
 import { ConceptWorkItem } from '@/lib/data';
 
 interface Props {
@@ -12,8 +13,9 @@ interface Props {
 export default function CaseStudyModal({ item, onClose }: Props) {
   if (!item) return null;
 
-  return (
-    <div className="modal-backdrop" onClick={onClose}>
+  // Portal to <body> so the dialog sits above the sticky nav and page layers.
+  return createPortal(
+    <div className="modal-backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-label={item.title}>
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="modal-header">
@@ -79,6 +81,7 @@ export default function CaseStudyModal({ item, onClose }: Props) {
           </Link>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

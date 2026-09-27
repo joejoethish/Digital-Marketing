@@ -1,102 +1,93 @@
-import ServicesExplorer from '@/components/ServicesExplorer';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import SplitWords from '@/components/ui/SplitWords';
 import { services } from '@/lib/data';
+import { sentenceCase } from '@/lib/text';
 
+export const metadata = {
+  title: 'Services — DEEYORA',
+  description:
+    'Strategy, content, performance marketing, websites, SEO and analytics — combined around what your business actually needs.',
+};
+
+// Each service is a full-screen chapter; the 3D Growth Engine slides the
+// matching layer out of its stack like a drawer (see keyframes `service-*`).
 export default function ServicesPage() {
   return (
     <>
-      <div className="container subhero" style={{ paddingBottom: 40 }}>
-        <div className="eyebrow">OUR SERVICES</div>
-        <h1 className="hero-headline" style={{ fontSize: 'clamp(36px, 5.5vw, 68px)', margin: '16px 0 20px', lineHeight: 1.1 }}>
-          DIGITAL GROWTH, <span className="accent">BUILT AROUND YOUR BUSINESS.</span>
-        </h1>
-        <p className="section-copy" style={{ fontSize: 18, maxWidth: 740, color: 'var(--muted)', lineHeight: 1.6 }}>
-          Not every business needs every marketing channel. We identify what matters most for your goals and build the right combination of strategy, creative, performance, digital experience, and data.
-        </p>
-
-        {/* Interactive Explorer for Desktop & Mobile */}
-        <ServicesExplorer />
-
-        {/* Full Detailed Grid of All 6 Services */}
-        <div style={{ marginTop: 80 }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <div className="eyebrow">COMPLETE CAPABILITIES OVERVIEW</div>
-            <h2 className="section-title" style={{ fontSize: 36, marginTop: 8 }}>
-              6 Core Pillars of Growth
-            </h2>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: 24,
-            }}
-          >
-            {services.map((service) => (
-              <div
-                key={service.id}
-                className="service-detail-card"
-                style={{ padding: 32, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-              >
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <span className="accent" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 700 }}>
-                      {service.n}
-                    </span>
-                    <span className="badge" style={{ background: 'rgba(139,111,192,0.12)', color: 'var(--navy)', fontWeight: 600, padding: '4px 10px', borderRadius: 4, fontSize: 11 }}>
-                      {service.title}
-                    </span>
-                  </div>
-
-                  <h3 style={{ fontSize: 20, color: 'var(--navy)', marginBottom: 10, lineHeight: 1.3 }}>
-                    {service.headline}
-                  </h3>
-
-                  <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 20 }}>
-                    {service.description}
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {service.services.map((item, idx) => (
-                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--navy)' }}>
-                        <CheckCircle2 size={14} className="accent" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid var(--line)' }}>
-                  <Link href="/contact" className="btn-secondary btn-sm" style={{ width: '100%', justifyContent: 'center' }}>
-                    <span>Discuss Capability</span>
-                    <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            ))}
+      <section className="exp-section xp-hero" data-kf="services-hero">
+        <div className="container">
+          <div className="xp-hero-copy" data-reveal>
+            <div className="eyebrow exp-fade">Our services</div>
+            <h1 className="exp-display">
+              <SplitWords text="Digital growth, built around your business." offset={2} />
+            </h1>
+            <p className="exp-lead exp-fade" style={{ '--d': '0.6s' } as React.CSSProperties}>
+              Not every business needs every marketing channel. We identify what matters most for your goals and build
+              the right combination of strategy, creative, performance, digital experience, and data.
+            </p>
+            <div className="exp-actions exp-fade" style={{ '--d': '0.75s' } as React.CSSProperties}>
+              <Link className="btn-primary" href="/contact">
+                <span>Talk to DEEYORA</span>
+                <span className="btn-arrow">→</span>
+              </Link>
+              <a className="exp-link" href={`#${services[0].id}`}>
+                See all six <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Services Page Final CTA */}
-        <div
-          className="calculator-card"
-          style={{ marginTop: 80, padding: '48px 36px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}
+      {services.map((service) => (
+        <section
+          key={service.id}
+          id={service.id}
+          className="exp-section xp-block"
+          data-kf={`service-${service.id}`}
         >
-          <div className="eyebrow">TAILORED DIRECTION</div>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(26px, 4vw, 42px)', color: 'var(--navy)' }}>
-            NOT SURE WHAT YOUR BUSINESS NEEDS?
-          </h2>
-          <p className="section-copy" style={{ fontSize: 16, maxWidth: 600 }}>
-            Start with a conversation. We'll help identify where digital can create the most useful opportunity.
-          </p>
-          <Link href="/contact" className="btn-primary" style={{ marginTop: 8 }}>
-            <span>TALK TO DEEYORA</span>
-            <ArrowRight size={16} />
-          </Link>
+          <div className="container">
+            <div className="xp-block-copy" data-reveal>
+              <div className="xp-count exp-fade">
+                {service.n} <span>/ 0{services.length}</span> · {service.title}
+              </div>
+              <h2 className="exp-title">
+                <SplitWords text={sentenceCase(service.headline)} />
+              </h2>
+              <p className="exp-lead exp-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
+                {service.description}
+              </p>
+              <ul className="xp-checks exp-fade" style={{ '--d': '0.4s' } as React.CSSProperties}>
+                {service.services.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <Link href="/contact" className="exp-link exp-fade" style={{ '--d': '0.5s' } as React.CSSProperties}>
+                Discuss this with us <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+      ))}
+
+      <section className="exp-section xp-cta" data-kf="services-cta">
+        <div className="container">
+          <div className="xp-card" data-reveal>
+            <div className="eyebrow exp-fade">Tailored direction</div>
+            <h2 className="exp-title">
+              <SplitWords text="Not sure what your business needs?" />
+            </h2>
+            <p className="exp-lead exp-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
+              Start with a conversation. We&apos;ll help identify where digital can create the most useful opportunity.
+            </p>
+            <div className="exp-actions exp-fade" style={{ '--d': '0.4s' } as React.CSSProperties}>
+              <Link href="/contact" className="btn-primary">
+                <span>Talk to DEEYORA</span>
+                <span className="btn-arrow">→</span>
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }
