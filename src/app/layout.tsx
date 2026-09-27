@@ -1,5 +1,6 @@
 import './globals.css';
 import './experience.css';
+import './pages.css';
 import './nav.css';
 import { DM_Sans, Space_Grotesk } from 'next/font/google';
 import Navbar from '@/components/Navbar';

@@ -1,82 +1,69 @@
-import { insights } from '@/lib/data';
 import Link from 'next/link';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import SplitWords from '@/components/ui/SplitWords';
+import { insights } from '@/lib/data';
+import { sentenceCase } from '@/lib/text';
 
+export const metadata = {
+  title: 'Insights — DEEYORA',
+  description: 'Practical thoughts on strategy, content, performance, websites, and building a stronger online presence.',
+};
+
+// The Growth Engine's layers stand in a row like records on a shelf; each
+// article brings its matching layer to the front (keyframes `insights-*`).
 export default function Insights() {
   return (
-    <div className="container subhero" style={{ paddingBottom: 80 }}>
-      {/* Hero */}
-      <div className="eyebrow">EDITORIAL INSIGHTS</div>
-      <h1 className="hero-headline" style={{ fontSize: 'clamp(36px, 5.5vw, 68px)', margin: '16px 0 20px', lineHeight: 1.1 }}>
-        IDEAS FOR <span className="accent">BETTER DIGITAL GROWTH.</span>
-      </h1>
-      <p className="section-copy" style={{ fontSize: 18, maxWidth: 720, color: 'var(--muted)', lineHeight: 1.6 }}>
-        Practical thoughts on strategy, content, performance, websites, and building a stronger online presence.
-      </p>
+    <>
+      <section className="exp-section xp-hero" data-kf="insights-hero">
+        <div className="container">
+          <div className="xp-hero-copy" data-reveal>
+            <div className="eyebrow exp-fade">Editorial insights</div>
+            <h1 className="exp-display">
+              <SplitWords text="Ideas for better digital growth." offset={2} />
+            </h1>
+            <p className="exp-lead exp-fade" style={{ '--d': '0.6s' } as React.CSSProperties}>
+              Practical thoughts on strategy, content, performance, websites, and building a stronger online presence.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Editorial Article Grid */}
-      <div
-        style={{
-          marginTop: 60,
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 28,
-        }}
-      >
-        {insights.map((article) => (
-          <article
-            key={article.n}
-            className="service-detail-card"
-            style={{
-              padding: 36,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              transition: 'transform 0.3s ease, border-color 0.3s ease',
-            }}
-          >
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                <BookOpen size={16} className="accent" />
-                <span className="accent" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em' }}>
-                  {article.n}
-                </span>
+      {insights.map((article, i) => (
+        <article key={article.n} className="exp-section xp-block xp-article" data-kf={`insights-article-${i + 1}`}>
+          <div className="container">
+            <div className="xp-block-copy" data-reveal>
+              <div className="xp-count exp-fade">
+                {article.n.replace('ARTICLE', 'Article')} <span>/ 0{insights.length}</span>
               </div>
-
-              <h3 style={{ fontSize: 18, color: 'var(--navy)', lineHeight: 1.4, marginBottom: 12, fontWeight: 700 }}>
-                {article.title}
-              </h3>
-
-              <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 24 }}>
+              <h2 className="exp-title">
+                <SplitWords text={sentenceCase(article.title)} />
+              </h2>
+              <p className="exp-lead exp-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
                 {article.excerpt}
               </p>
             </div>
+          </div>
+        </article>
+      ))}
 
-            <div style={{ paddingTop: 16, borderTop: '1px solid var(--line)', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: 'var(--navy)' }}>
-              <span>READ PERSPECTIVE</span>
-              <ArrowRight size={14} className="accent" />
+      <section className="exp-section xp-cta" data-kf="insights-cta">
+        <div className="container">
+          <div className="xp-card" data-reveal>
+            <div className="eyebrow exp-fade">Apply these ideas</div>
+            <h2 className="exp-title">
+              <SplitWords text="Want to discuss strategy for your brand?" />
+            </h2>
+            <p className="exp-lead exp-fade" style={{ '--d': '0.3s' } as React.CSSProperties}>
+              Let&apos;s map out how these principles apply directly to your business goals.
+            </p>
+            <div className="exp-actions exp-fade" style={{ '--d': '0.4s' } as React.CSSProperties}>
+              <Link href="/contact" className="btn-primary">
+                <span>Start a conversation</span>
+                <span className="btn-arrow">→</span>
+              </Link>
             </div>
-          </article>
-        ))}
-      </div>
-
-      {/* Insights Bottom CTA */}
-      <div
-        className="calculator-card"
-        style={{ marginTop: 80, padding: '48px 36px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}
-      >
-        <div className="eyebrow">APPLY THESE IDEAS</div>
-        <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(24px, 3.5vw, 36px)', color: 'var(--navy)' }}>
-          WANT TO DISCUSS STRATEGY FOR YOUR BRAND?
-        </h2>
-        <p className="section-copy" style={{ fontSize: 16, maxWidth: 580 }}>
-          Let's map out how these principles apply directly to your business goals.
-        </p>
-        <Link href="/contact" className="btn-primary" style={{ marginTop: 8 }}>
-          <span>START A CONVERSATION</span>
-          <ArrowRight size={16} />
-        </Link>
-      </div>
-    </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
