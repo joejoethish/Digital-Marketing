@@ -1,0 +1,272 @@
+/* ════════════════════════════════════════════════════════════════════
+   Floating header with a direct-selection dock — every page one click away
+   ════════════════════════════════════════════════════════════════════ */
+
+.site-header {
+  position: fixed;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 160;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: min(calc(100% - 36px), 1400px);
+  margin: 0 auto;
+  pointer-events: none; /* only the pills are clickable */
+}
+
+.site-header > * {
+  pointer-events: auto;
+}
+
+.sh-pill,
+.dock {
+  display: inline-flex;
+  align-items: center;
+  height: 56px;
+  border-radius: 999px;
+  font-family: var(--font-space-grotesk), sans-serif;
+  color: var(--navy);
+  background: rgba(247, 245, 240, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 12px 34px -20px rgba(17, 19, 26, 0.5);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+
+.sh-pill {
+  padding: 0 22px;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.sh-brand {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.sh-brand .brand-d {
+  color: var(--purple);
+}
+
+.sh-cta {
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sh-cta:hover {
+  color: #fff;
+  background: var(--purple);
+  border-color: var(--purple);
+}
+
+/* Dark pages (the stage sets data-exp-theme): switch to dark glass */
+html[data-exp-theme='dark'] .sh-pill,
+html[data-exp-theme='dark'] .dock {
+  color: #f7f5f0;
+  background: rgba(17, 19, 26, 0.55);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 34px -18px rgba(0, 0, 0, 0.8);
+}
+
+html[data-exp-theme='dark'] .dock-link {
+  color: rgba(247, 245, 240, 0.65);
+}
+
+html[data-exp-theme='dark'] .dock-link.is-active,
+html[data-exp-theme='dark'] .dock-link.is-hover {
+  color: var(--navy);
+}
+
+html[data-exp-theme='dark'] .sh-brand .brand-d,
+html[data-exp-theme='dark'] .roll::before {
+  color: var(--purple-light);
+}
+
+html[data-exp-theme='dark'] .dock-link.is-hover .roll::before {
+  color: var(--purple);
+}
+
+.sh-pill,
+.dock {
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* ── Dock ───────────────────────────────────────────────────────────── */
+
+.dock {
+  position: relative;
+  gap: 2px;
+  padding: 0 6px;
+}
+
+/* Scroll progress along the bottom edge */
+.dock::after {
+  content: '';
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--purple);
+  opacity: 0.55;
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* Glass pill that glides to the hovered (or current) link */
+.dock-indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 6px 18px -8px rgba(139, 111, 192, 0.55), inset 0 0 0 1px rgba(139, 111, 192, 0.18);
+  transition: transform 0.55s cubic-bezier(0.34, 1.4, 0.64, 1), width 0.55s cubic-bezier(0.34, 1.4, 0.64, 1);
+  pointer-events: none;
+}
+
+.dock-link {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(17, 19, 26, 0.62);
+  outline: none;
+  transition: color 0.3s ease;
+}
+
+.dock-link.is-active,
+.dock-link.is-hover {
+  color: var(--navy);
+}
+
+.dock-link:focus-visible {
+  box-shadow: 0 0 0 3px rgba(139, 111, 192, 0.45);
+}
+
+/* 3D roll: the label turns over like a cube to reveal a purple copy */
+.dock-label {
+  display: inline-block;
+  height: 18px;
+  line-height: 18px;
+  perspective: 300px;
+}
+
+.roll {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50% -9px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roll::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--purple);
+  transform: rotateX(-90deg);
+  transform-origin: 50% 0;
+}
+
+.dock-link.is-hover .roll {
+  transform: rotateX(90deg) translateY(-9px);
+}
+
+/* ── Tablets: tighter dock ──────────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .dock-link {
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .sh-pill {
+    padding: 0 16px;
+  }
+}
+
+/* ── Phones: the dock becomes a bottom tab bar ──────────────────────── */
+
+@media (max-width: 760px) {
+  .site-header {
+    top: 12px;
+    width: calc(100% - 24px);
+  }
+
+  .sh-pill {
+    height: 48px;
+    padding: 0 18px;
+  }
+
+  .dock {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    height: 60px;
+    justify-content: space-between;
+    padding: 0 6px;
+  }
+
+  .dock::after {
+    left: 20px;
+    right: 20px;
+  }
+
+  .dock-link {
+    flex: 1;
+    justify-content: center;
+    height: 48px;
+    padding: 0;
+    font-size: 11.5px;
+    letter-spacing: 0.01em;
+  }
+
+  .dock-label {
+    display: block;
+    height: auto;
+    line-height: 1;
+  }
+
+  .roll::before {
+    display: none;
+  }
+
+  .dock-link.is-hover .roll {
+    transform: none;
+  }
+
+  .footer-wrap {
+    padding-bottom: 110px;
+  }
+
+  /* Hidden behind the home preloader until it clears */
+  html.exp-home:not(.is-ready) .dock {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .sh-cta {
+    display: none;
+  }
+}
