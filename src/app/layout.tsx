@@ -1,9 +1,11 @@
 import './globals.css';
+import './experience.css';
 import { DM_Sans, Space_Grotesk } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
 import SmoothScroll from '@/components/SmoothScroll';
+import ExperienceCanvas from '@/components/experience/ExperienceCanvas';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -33,6 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Page shell */}
         <div className="page">
+          {/* Site-wide 3D stage — sits behind all page content */}
+          <ExperienceCanvas />
           <Navbar />
           <main className="content-layer">{children}</main>
           <Footer />
