@@ -1,60 +1,29 @@
-import Hero from "@/components/sections/Hero";
-import FirstImpression from "@/components/sections/FirstImpression";
-import ServicesSection from "@/components/sections/ServicesSection";
-import GrowthSystem from "@/components/sections/GrowthSystem";
-import WhyDeeyora from "@/components/sections/WhyDeeyora";
-import AIAdvantage from "@/components/sections/AIAdvantage";
-import PerformanceDashboard from "@/components/sections/PerformanceDashboard";
-import WorkSection from "@/components/sections/WorkSection";
-import Industries from "@/components/sections/Industries";
-import Process from "@/components/sections/Process";
-import Pricing from "@/components/sections/Pricing";
-import Insights from "@/components/sections/Insights";
-import CTASection from "@/components/sections/CTASection";
-import ScrollRevealInit from "@/components/ScrollRevealInit";
+import Hero from '@/components/Hero';
+import WhatWeHelpWith from '@/components/WhatWeHelpWith';
+import ProcessSection from '@/components/ProcessSection';
+import WhyDeeyoraSection from '@/components/WhyDeeyoraSection';
+import FAQSection from '@/components/FAQSection';
+import CTASection from '@/components/CTASection';
 
-export default function HomePage() {
+export default function Home() {
   return (
     <>
-      <ScrollRevealInit />
-      
-      {/* 01. Hero */}
+      {/* 01 HERO SECTION */}
       <Hero />
 
-      {/* 02. First Impression Banner */}
-      <FirstImpression />
+      {/* 02 HOME — WHAT WE HELP WITH */}
+      <WhatWeHelpWith />
 
-      {/* 03. Services */}
-      <ServicesSection />
+      {/* 03 HOME — PROCESS */}
+      <ProcessSection />
 
-      {/* 04. Growth System */}
-      <GrowthSystem />
+      {/* 04 HOME — WHY DEEYORA */}
+      <WhyDeeyoraSection />
 
-      {/* 05. Why DEEYORA */}
-      <WhyDeeyora />
+      {/* 05 FREQUENTLY ASKED QUESTIONS */}
+      <FAQSection />
 
-      {/* 06. AI Advantage */}
-      <AIAdvantage />
-
-      {/* 07. Performance Marketing Analytics */}
-      <PerformanceDashboard />
-
-      {/* 08. Industry Focus */}
-      <Industries />
-
-      {/* 09. Work That Speaks */}
-      <WorkSection />
-
-      {/* 10. Process */}
-      <Process />
-
-      {/* 11. Pricing & Engagement */}
-      <Pricing />
-
-      {/* 12. Insights */}
-      <Insights />
-
-      {/* 13. Final CTA */}
+      {/* 06 HOME — FINAL CTA */}
       <CTASection />
     </>
   );

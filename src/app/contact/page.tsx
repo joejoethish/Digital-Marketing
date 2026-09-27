@@ -1,106 +1,195 @@
-import type { Metadata } from "next";
-import ContactForm from "./ContactForm";
+'use client';
 
-export const metadata: Metadata = {
-  title: "Contact DEEYORA — Start a Project or Book a Call",
-  description: "Tell us where you are. We'll help you figure out what's next. No commitment required.",
-};
+import { useState } from 'react';
+import { Mail, MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
+import FAQSection from '@/components/FAQSection';
 
-const steps = [
-  { n: "01", t: "We review your message", d: "Every submission is read carefully before we respond." },
-  { n: "02", t: "We get in touch", d: "You'll hear from us within 24 hours with initial thoughts." },
-  { n: "03", t: "We talk about your goals", d: "A quick call to understand what you need properly." },
-  { n: "04", t: "We send a clear proposal", d: "Scope, timeline and investment — no surprises." },
+const LOOKING_FOR_OPTIONS = [
+  'Brand & Strategy',
+  'Social Media & Content',
+  'Paid Advertising',
+  'Website & CRO',
+  'SEO & Organic Growth',
+  'Analytics & Reporting',
+  'Not Sure Yet',
 ];
 
-export default function ContactPage() {
+export default function Contact() {
+  const [selectedLookingFor, setSelectedLookingFor] = useState<string>('Not Sure Yet');
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSent(true);
+  };
+
   return (
-    <div style={{ paddingTop: "8rem", paddingBottom: "6rem", background: "var(--bg-primary)", minHeight: "100vh" }}>
-      <div className="container">
+    <>
+      <div className="container subhero" style={{ paddingBottom: 60 }}>
+        <div className="eyebrow">CONTACT DEEYORA</div>
+        <h1 className="hero-headline" style={{ fontSize: 'clamp(36px, 5.5vw, 68px)', margin: '16px 0 20px', lineHeight: 1.1 }}>
+          LET'S START WITH A <span className="accent">CONVERSATION.</span>
+        </h1>
 
-        {/* Header */}
-        <div style={{ maxWidth: "520px", marginBottom: "3.5rem" }}>
-          <p className="section-label">Contact</p>
-          <h1 className="display-lg" style={{ marginBottom: "1rem" }}>
-            Ready to Grow?
-          </h1>
-          <p className="body-lg" style={{ color: "var(--text-secondary)" }}>
-            Tell us where you are. We&apos;ll help you figure out what&apos;s next.
-          </p>
-        </div>
+        <div className="subgrid" style={{ marginTop: 36, gap: 40 }}>
+          {/* Left Column: Context & Contact details */}
+          <div>
+            <p className="section-copy" style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--muted)', marginBottom: 32 }}>
+              You don't need to have everything figured out before reaching out. Tell us about your business, what you're trying to achieve, and where you're currently stuck. We'll take it from there.
+            </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: "4rem", alignItems: "start" }}>
-
-          {/* Form */}
-          <ContactForm />
-
-          {/* Sidebar */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-
-            {/* What happens next */}
-            <div style={{
-              background: "var(--bg-surface)", border: "1px solid var(--border)",
-              borderRadius: "var(--radius-md)", padding: "1.625rem",
-            }}>
-              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", marginBottom: "1.25rem" }}>
-                What happens next?
-              </h3>
-              {steps.map((s, i) => (
-                <div key={s.n} style={{
-                  display: "flex", gap: "0.875rem",
-                  marginBottom: i < steps.length - 1 ? "1rem" : "0",
-                  paddingBottom: i < steps.length - 1 ? "1rem" : "0",
-                  borderBottom: i < steps.length - 1 ? "1px solid var(--border)" : "none",
-                }}>
-                  <span style={{
-                    fontWeight: 800, fontSize: "0.625rem", letterSpacing: "0.06em",
-                    color: "var(--accent)", paddingTop: "3px", minWidth: "20px",
-                  }}>{s.n}</span>
-                  <div>
-                    <p style={{ fontWeight: 600, fontSize: "0.875rem", color: "var(--text-primary)", marginBottom: "2px" }}>{s.t}</p>
-                    <p style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>{s.d}</p>
-                  </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, margin: '32px 0' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: '50%',
+                    background: 'rgba(139,111,192,0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Mail className="accent" size={20} />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <strong style={{ display: 'block', fontSize: 15, color: 'var(--navy)' }}>Direct Email</strong>
+                  <a href="mailto:hello@deeyora.com" style={{ fontSize: 14, color: 'var(--muted)', textDecoration: 'none' }}>
+                    hello@deeyora.com
+                  </a>
+                </div>
+              </div>
 
-            {/* Book a call */}
-            <div style={{
-              background: "var(--accent-dim)", border: "1px solid rgba(108,61,255,0.15)",
-              borderRadius: "var(--radius-md)", padding: "1.625rem",
-            }}>
-              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", marginBottom: "0.375rem", color: "var(--accent)" }}>
-                Book a Strategy Call
-              </h3>
-              <p style={{ fontSize: "0.875rem", color: "var(--text-secondary)", marginBottom: "1.125rem", lineHeight: 1.6 }}>
-                Prefer to talk first? Book a free 30-minute call.
-              </p>
-              <a
-                href="mailto:hello@deeyora.com?subject=Strategy Call Request"
-                className="btn btn-primary"
-                style={{ display: "flex", justifyContent: "center", fontSize: "0.875rem" }}
-              >
-                Book a Call →
-              </a>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: '50%',
+                    background: 'rgba(139,111,192,0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <MapPin className="accent" size={20} />
+                </div>
+                <div>
+                  <strong style={{ display: 'block', fontSize: 15, color: 'var(--navy)' }}>Location</strong>
+                  <span style={{ fontSize: 14, color: 'var(--muted)' }}>India · Working Globally</span>
+                </div>
+              </div>
             </div>
+          </div>
 
-            {/* Email */}
-            <div style={{
-              padding: "1rem", borderRadius: "var(--radius-sm)",
-              border: "1px solid var(--border)", background: "var(--bg-surface)",
-              textAlign: "center",
-            }}>
-              <p style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>
-                Or email us at{" "}
-                <a href="mailto:hello@deeyora.com" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>
-                  hello@deeyora.com
-                </a>
-              </p>
-            </div>
+          {/* Right Column: Inquiry Form */}
+          <div className="calculator-card" style={{ margin: 0, padding: 36 }}>
+            {sent ? (
+              <div style={{ padding: '30px 0', textAlign: 'center' }}>
+                <CheckCircle2 size={48} className="accent" style={{ margin: '0 auto 16px auto' }} />
+                <div className="eyebrow">INQUIRY RECEIVED</div>
+                <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, color: 'var(--navy)', margin: '12px 0' }}>
+                  Thank you for reaching out.
+                </h2>
+                <p className="section-copy" style={{ margin: '0 auto', fontSize: 15, color: 'var(--muted)', lineHeight: 1.5 }}>
+                  We'll review your business details and get back to you shortly to schedule a conversation.
+                </p>
+              </div>
+            ) : (
+              <form className="form" onSubmit={handleSubmit}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>
+                      NAME *
+                    </label>
+                    <input
+                      required
+                      placeholder="Your Name"
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--line)' }}
+                    />
+                  </div>
 
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>
+                      WORK EMAIL *
+                    </label>
+                    <input
+                      required
+                      type="email"
+                      placeholder="alex@company.com"
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--line)' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>
+                      BUSINESS / BRAND *
+                    </label>
+                    <input
+                      required
+                      placeholder="Company Name"
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--line)' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>
+                      WEBSITE OR SOCIAL PROFILE
+                    </label>
+                    <input
+                      placeholder="https://yourbrand.com or @handle"
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--line)' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 8 }}>
+                      WHAT ARE YOU LOOKING FOR?
+                    </label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {LOOKING_FOR_OPTIONS.map((opt) => {
+                        const isSelected = selectedLookingFor === opt;
+                        return (
+                          <button
+                            key={opt}
+                            type="button"
+                            className={`calc-type-btn ${isSelected ? 'active' : ''}`}
+                            onClick={() => setSelectedLookingFor(opt)}
+                            style={{ fontSize: 12, padding: '6px 12px' }}
+                          >
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>
+                      WHAT'S YOUR GOAL?
+                    </label>
+                    <textarea
+                      required
+                      rows={4}
+                      placeholder="Tell us briefly about your business and what you'd like to improve."
+                      style={{ width: '100%', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--line)' }}
+                    />
+                  </div>
+
+                  <button className="btn-primary" style={{ marginTop: 10, justifyContent: 'center' }}>
+                    <span>SEND INQUIRY</span>
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
-    </div>
+
+      {/* FAQ Section on Contact page */}
+      <FAQSection />
+    </>
   );
 }

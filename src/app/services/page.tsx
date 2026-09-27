@@ -1,92 +1,102 @@
-"use client";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { services } from "@/lib/data";
-import ScrollRevealInit from "@/components/ScrollRevealInit";
-import CTASection from "@/components/sections/CTASection";
+import ServicesExplorer from '@/components/ServicesExplorer';
+import Link from 'next/link';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { services } from '@/lib/data';
 
 export default function ServicesPage() {
   return (
     <>
-      <ScrollRevealInit />
-      <div style={{ paddingTop: "8rem", background: "var(--bg-primary)" }}>
-        <div className="container" style={{ paddingBottom: "4rem" }}>
+      <div className="container subhero" style={{ paddingBottom: 40 }}>
+        <div className="eyebrow">OUR SERVICES</div>
+        <h1 className="hero-headline" style={{ fontSize: 'clamp(36px, 5.5vw, 68px)', margin: '16px 0 20px', lineHeight: 1.1 }}>
+          DIGITAL GROWTH, <span className="accent">BUILT AROUND YOUR BUSINESS.</span>
+        </h1>
+        <p className="section-copy" style={{ fontSize: 18, maxWidth: 740, color: 'var(--muted)', lineHeight: 1.6 }}>
+          Not every business needs every marketing channel. We identify what matters most for your goals and build the right combination of strategy, creative, performance, digital experience, and data.
+        </p>
 
-          {/* Header */}
-          <div style={{ maxWidth: "560px", marginBottom: "4rem" }}>
-            <p className="section-label">What We Do</p>
-            <h1 className="display-lg reveal" style={{ marginBottom: "1rem" }}>
-              Everything you need<br />
-              <span className="gradient-text">to grow online.</span>
-            </h1>
-            <p className="body-lg reveal reveal-delay-1" style={{ color: "var(--text-secondary)" }}>
-              No guesswork. No bloat. Just what moves the needle for your business.
-            </p>
+        {/* Interactive Explorer for Desktop & Mobile */}
+        <ServicesExplorer />
+
+        {/* Full Detailed Grid of All 6 Services */}
+        <div style={{ marginTop: 80 }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div className="eyebrow">COMPLETE CAPABILITIES OVERVIEW</div>
+            <h2 className="section-title" style={{ fontSize: 36, marginTop: 8 }}>
+              6 Core Pillars of Growth
+            </h2>
           </div>
 
-          {/* Services list */}
-          <div style={{
-            display: "flex", flexDirection: "column", gap: "1px",
-            background: "var(--border)", border: "1px solid var(--border)",
-            borderRadius: "var(--radius-lg)", overflow: "hidden",
-          }}>
-            {services.map((service, i) => (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: 24,
+            }}
+          >
+            {services.map((service) => (
               <div
                 key={service.id}
-                className={`reveal reveal-delay-${Math.min(i % 3 + 1, 3)}`}
-                style={{
-                  background: "var(--bg-primary)",
-                  padding: "1.75rem 2rem",
-                  transition: "background 0.22s ease",
-                  cursor: "default",
-                }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "var(--bg-surface)"}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "var(--bg-primary)"}
+                className="service-detail-card"
+                style={{ padding: 32, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
               >
-                <div style={{ display: "grid", gridTemplateColumns: "64px 1fr 260px auto", gap: "1.75rem", alignItems: "center" }}>
-
-                  {/* Icon */}
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "0.625rem", fontWeight: 700, letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "0.4rem" }}>{service.number}</div>
-                    <div style={{ fontSize: "1.625rem" }}>{service.icon}</div>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <span className="accent" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 24, fontWeight: 700 }}>
+                      {service.n}
+                    </span>
+                    <span className="badge" style={{ background: 'rgba(139,111,192,0.12)', color: 'var(--navy)', fontWeight: 600, padding: '4px 10px', borderRadius: 4, fontSize: 11 }}>
+                      {service.title}
+                    </span>
                   </div>
 
-                  {/* Name + description */}
-                  <div>
-                    <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1.0625rem", letterSpacing: "-0.01em", marginBottom: "0.3rem" }}>
-                      {service.name}
-                    </h2>
-                    <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>
-                      {service.description}
-                    </p>
-                  </div>
+                  <h3 style={{ fontSize: 20, color: 'var(--navy)', marginBottom: 10, lineHeight: 1.3 }}>
+                    {service.headline}
+                  </h3>
 
-                  {/* Capabilities */}
-                  <div>
-                    <p style={{ fontSize: "0.625rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--text-muted)", marginBottom: "0.5rem" }}>
-                      How we help
-                    </p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem" }}>
-                      {service.capabilities.map(c => (
-                        <span key={c} className="pill" style={{ fontSize: "0.75rem" }}>{c}</span>
-                      ))}
-                    </div>
-                  </div>
+                  <p style={{ fontSize: 14, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 20 }}>
+                    {service.description}
+                  </p>
 
-                  {/* CTA */}
-                  <div>
-                    <Link href="/contact" className="btn btn-outline" style={{ padding: "0.6rem 1.125rem", fontSize: "0.8125rem", whiteSpace: "nowrap" }}>
-                      Get Started <ArrowRight size={13} />
-                    </Link>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {service.services.map((item, idx) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--navy)' }}>
+                        <CheckCircle2 size={14} className="accent" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
                   </div>
+                </div>
 
+                <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid var(--line)' }}>
+                  <Link href="/contact" className="btn-secondary btn-sm" style={{ width: '100%', justifyContent: 'center' }}>
+                    <span>Discuss Capability</span>
+                    <ArrowRight size={14} />
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Services Page Final CTA */}
+        <div
+          className="calculator-card"
+          style={{ marginTop: 80, padding: '48px 36px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20 }}
+        >
+          <div className="eyebrow">TAILORED DIRECTION</div>
+          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(26px, 4vw, 42px)', color: 'var(--navy)' }}>
+            NOT SURE WHAT YOUR BUSINESS NEEDS?
+          </h2>
+          <p className="section-copy" style={{ fontSize: 16, maxWidth: 600 }}>
+            Start with a conversation. We'll help identify where digital can create the most useful opportunity.
+          </p>
+          <Link href="/contact" className="btn-primary" style={{ marginTop: 8 }}>
+            <span>TALK TO DEEYORA</span>
+            <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
-      <CTASection />
     </>
   );
 }
