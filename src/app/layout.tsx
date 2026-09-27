@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
 import SmoothScroll from '@/components/SmoothScroll';
+import OfflineCache from '@/components/OfflineCache';
 import ExperienceCanvas from '@/components/experience/ExperienceCanvas';
 
 const dmSans = DM_Sans({
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {/* System layer — composited above everything */}
         <SmoothScroll />
+        <OfflineCache />
         <CustomCursor />
 
         {/* Page shell */}
