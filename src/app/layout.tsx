@@ -3,7 +3,7 @@ import { DM_Sans, Space_Grotesk } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
-import ScrollProgress from '@/components/ScrollProgress';
+import SmoothScroll from '@/components/SmoothScroll';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -28,8 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${dmSans.variable} ${spaceGrotesk.variable}`}>
       <body>
         {/* System layer — composited above everything */}
+        <SmoothScroll />
         <CustomCursor />
-        <ScrollProgress />
 
         {/* Page shell */}
         <div className="page">
