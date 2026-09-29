@@ -1,14 +1,17 @@
 // Single source of truth for how customers can reach DEEYORA.
-// Leave `phone` / `whatsapp` empty to hide those buttons; fill them in
-// (international format, digits only for WhatsApp, e.g. '919876543210')
-// and they appear on the contact page.
+// The details live in the env file (see .env.example). Leave `phone`,
+// `whatsapp` or `instagram` empty to hide those buttons. They're
+// NEXT_PUBLIC_ because client components (the header, contact page) read
+// them — they're inlined at build time, so restart `next dev` after editing.
 
 export const CONTACT = {
-  email: 'hello@deeyora.com',
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hello@deeyora.com',
   /** Display + dial format, e.g. '+91 98765 43210'. */
-  phone: '',
+  phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '',
   /** Digits only, with country code, e.g. '919876543210'. */
-  whatsapp: '',
+  whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '').replace(/\D/g, ''),
+  /** Full profile URL, e.g. 'https://instagram.com/deeyora'. */
+  instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || '',
   responseTime: 'within 24 hours',
   location: 'India · Working Globally',
 };
