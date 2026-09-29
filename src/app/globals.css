@@ -57,6 +57,24 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Selection lock — page text can't be selected; form fields still can ── */
+
+html {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+input, textarea, select, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+img, svg, a {
+  -webkit-user-drag: none;
+}
+
 body {
   background: var(--bg);
   color: var(--ink);
