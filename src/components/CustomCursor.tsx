@@ -20,7 +20,8 @@ export function CustomCursor() {
     let mouseY = -100;
     let ringX = -100;
     let ringY = -100;
-    let raf: number;
+    let raf = 0;
+    let lastMag: HTMLElement | null = null;
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
@@ -28,6 +29,8 @@ export function CustomCursor() {
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mouseX - 4}px, ${mouseY - 4}px, 0)`;
       }
+      // The ring eases after the pointer; its loop sleeps once it has caught up.
+      if (!raf) raf = requestAnimationFrame(animate);
 
       // Magnetic Button Effect
       const target = e.target as HTMLElement;
@@ -38,14 +41,13 @@ export function CustomCursor() {
         const relY = mouseY - (rect.top + rect.height / 2);
         magBtn.style.transform = `translate3d(${relX * 0.22}px, ${relY * 0.22}px, 0)`;
         magBtn.style.transition = "transform 0.1s ease-out";
-      } else {
-        document.querySelectorAll<HTMLElement>(".btn, [data-magnetic]").forEach((b) => {
-          if (b.style.transform !== "") {
-            b.style.transform = "translate3d(0,0,0)";
-            b.style.transition = "transform 0.3s ease-out";
-          }
-        });
       }
+      // Release the previously pulled button (only it can be displaced).
+      if (lastMag && lastMag !== magBtn) {
+        lastMag.style.transform = "translate3d(0,0,0)";
+        lastMag.style.transition = "transform 0.3s ease-out";
+      }
+      lastMag = magBtn;
     };
 
     const onOver = (e: MouseEvent) => {
@@ -73,19 +75,24 @@ export function CustomCursor() {
       }
     };
 
-    const animate = () => {
+    function animate() {
       ringX += (mouseX - ringX) * 0.18;
       ringY += (mouseY - ringY) * 0.18;
+      const settled = Math.abs(mouseX - ringX) < 0.05 && Math.abs(mouseY - ringY) < 0.05;
+      if (settled) {
+        ringX = mouseX;
+        ringY = mouseY;
+      }
 
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ringX - 18}px, ${ringY - 18}px, 0)`;
       }
-      raf = requestAnimationFrame(animate);
-    };
+      raf = settled ? 0 : requestAnimationFrame(animate);
+    }
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("mouseover", onOver, { passive: true });
-    raf = requestAnimationFrame(animate);
+    raf = requestAnimationFrame(animate); // parks the ring off-screen until the pointer moves
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
