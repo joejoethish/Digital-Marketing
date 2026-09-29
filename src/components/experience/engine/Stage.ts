@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { GrowthEngine } from './GrowthEngine';
 import { createStudioEnvironment, FastPMREMGenerator, resolveFont } from './textures';
 import { FRAME_KEYS, getKeyframe, type Frame } from './keyframes';
-import { PULSE_EVENT, navStore } from '../stageStore';
+import { PULSE_EVENT, navStore, stageStore } from '../stageStore';
 
 const DEG = THREE.MathUtils.DEG2RAD;
 const PULL_KEYS = ['pull0', 'pull1', 'pull2', 'pull3', 'pull4'] as const;
@@ -220,7 +220,22 @@ export class Stage {
 
   private tick = (now: number) => {
     this.raf = requestAnimationFrame(this.tick);
+    // Paused behind the preloader.
     if (this.ready && !this.playing) return;
+    // Page content hides the whole stage: skip the 3D work, but keep the cheap
+    // DOM state (header theme, labels) where the running stage would settle.
+    if (this.ready && stageStore.isOccluded(window.scrollY)) {
+      this.timer.update(now); // no giant frame delta when rendering resumes
+      this.computeTarget(window.scrollY);
+      if (this.cur) Object.assign(this.cur, this.tgt); // resume from the settled pose
+      const theme = this.tgt.bg > 0.5 ? 'dark' : 'light';
+      if (theme !== this.theme) {
+        this.theme = theme;
+        document.documentElement.dataset.expTheme = theme;
+      }
+      this.updateLabels(0); // nothing of the stage shows, so neither do its labels
+      return;
+    }
     this.timer.update(now);
     const rawDt = this.timer.getDelta();
     const dt = Math.min(rawDt, 1 / 20);

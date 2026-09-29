@@ -3,6 +3,7 @@ import './experience.css';
 import './pages.css';
 import './nav.css';
 import { DM_Sans, Space_Grotesk } from 'next/font/google';
+import localFont from 'next/font/local';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
@@ -22,6 +23,15 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 });
 
+// Google Sans (OFL, via Google Fonts) — self-hosted because next/font/google
+// in Next 14 doesn't list it. Only used for the big footer wordmark.
+const googleSans = localFont({
+  src: './fonts/GoogleSans-Medium-latin.woff2',
+  weight: '500',
+  variable: '--font-google-sans',
+  display: 'swap',
+});
+
 export const metadata = {
   title: 'DEEYORA — Digital Growth. Designed to Perform.',
   description:
@@ -30,7 +40,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${dmSans.variable} ${spaceGrotesk.variable} ${googleSans.variable}`}>
       <body>
         {/* System layer — composited above everything */}
         <SmoothScroll />

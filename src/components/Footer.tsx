@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import WordmarkZoom from './WordmarkZoom';
 
 const NAV_LINKS = [
   ['HOME', '/'],
@@ -9,9 +10,11 @@ const NAV_LINKS = [
   ['CONTACT', '/contact'],
 ];
 
+const WORDMARK = [...'Deeyora'];
+
 export default function Footer() {
   return (
-    <footer className="footer-wrap">
+    <footer className="footer-wrap footer-zoom-wrap">
       <div className="container footer">
         {/* Status indicator bar */}
         <div className="footer-status-bar">
@@ -66,15 +69,29 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Bottom strip */}
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} DEEYORA. All rights reserved.</span>
-          <div className="footer-bottom-right">
-            <span>Digital Growth Studio</span>
+      {/* Finale: the wordmark lands from a 400% fish-eye zoom (pinned stage) */}
+      <WordmarkZoom>
+        <div className="container footer-end">
+          {/* Giant wordmark — the "r" floats above the line */}
+          <div className="footer-wordmark" role="img" aria-label="Deeyora">
+            {WORDMARK.map((ch, i) => (
+              <span key={i} aria-hidden="true" className={ch === 'r' ? 'is-lifted' : undefined}>
+                {ch}
+              </span>
+            ))}
+          </div>
+
+          {/* Bottom strip */}
+          <div className="footer-bottom">
+            <span>© {new Date().getFullYear()} DEEYORA. All rights reserved.</span>
+            <div className="footer-bottom-right">
+              <span>Digital Growth Studio</span>
+            </div>
           </div>
         </div>
-      </div>
+      </WordmarkZoom>
     </footer>
   );
 }

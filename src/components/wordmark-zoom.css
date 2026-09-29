@@ -1,0 +1,85 @@
+/* ── Footer finale: the wordmark lands from a 400% fish-eye zoom ──────
+   The end of the footer is a full-screen stage pinned (position: sticky) over
+   a taller runway; scrolling the runway drives the zoom (WordmarkZoom.tsx). */
+
+.footer-wrap.footer-zoom-wrap {
+  /* No overflow clipping on the footer: it would stop the stage from pinning.
+     The stage clips its own contents, and .page clips anything sideways. */
+  overflow: visible;
+  padding-bottom: 0;
+}
+
+.wm-runway {
+  position: relative;
+  height: 250vh;
+  height: calc(100svh + 150vh);
+}
+
+.wm-stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* Fallback when pinning doesn't work: the zoom plays while the stage scrolls in. */
+.wm-runway.wm-nopin {
+  height: auto;
+}
+
+.wm-nopin .wm-stage {
+  position: relative;
+}
+
+.wm-lens {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Wordmark centred on the final screen, the bottom strip beneath it. */
+.footer-end {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.footer-end .footer-wordmark {
+  margin: auto 0;
+}
+
+/* The copyright strip stays readable over the zoomed letters. */
+.footer-end .footer-bottom {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .footer-end {
+    padding-bottom: 110px; /* clear the bottom nav dock */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wm-runway {
+    height: auto;
+  }
+
+  .wm-stage {
+    position: relative;
+    height: auto;
+  }
+
+  .footer-end .footer-wordmark {
+    margin: 10px 0 36px;
+  }
+}

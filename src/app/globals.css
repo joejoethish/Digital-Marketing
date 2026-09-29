@@ -823,6 +823,30 @@ img, video { max-width: 100%; display: block; }
   color: white;
 }
 
+/* Giant wordmark, Antigravity-style: spans the container, the "r" floats up */
+.footer-wordmark {
+  display: flex;
+  margin: 10px 0 36px;
+  font-family: var(--font-google-sans), 'Google Sans', sans-serif;
+  font-weight: 500;
+  /* "Deeyora" in this font is ~3.66em wide: size it to fill .container */
+  font-size: min(calc((100vw - 48px) / 3.72), calc(var(--max) / 3.72));
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  color: #f7f5f0;
+  user-select: none;
+}
+
+.footer-wordmark span {
+  display: inline-block;
+  padding-bottom: 0.18em; /* room for the y's descender */
+}
+
+.footer-wordmark .is-lifted {
+  color: var(--purple-light);
+  transform: translateY(-0.14em);
+}
+
 .footer-bottom {
   display: flex;
   justify-content: space-between;
