@@ -23,12 +23,23 @@ export const navStore = {
 
 let ready = false;
 let introPlayed = false;
+let occluderTop: number | null = null;
 let player: Fn | null = null;
 const readyListeners = new Set<Fn>();
 
 export const stageStore = {
   isReady: () => ready,
   hasPlayedIntro: () => introPlayed,
+
+  /**
+   * Document y from which opaque page content (the footer finale) covers the
+   * whole stage; the stage checks it against the live scroll position each
+   * frame and skips rendering past it.
+   */
+  setOccluderTop(top: number | null) {
+    occluderTop = top;
+  },
+  isOccluded: (scrollY: number) => occluderTop !== null && scrollY >= occluderTop,
 
   /** Called by the stage once its first frame has rendered. */
   markReady() {
